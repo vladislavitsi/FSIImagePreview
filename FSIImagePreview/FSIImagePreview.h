@@ -3,7 +3,7 @@
 //  FSIImagePreview
 //
 //  Created by Uladzislau Kleshchanka on Jul/19/2018.
-//  Copyright © 2018 Uladzislau Kleshchanka. All rights reserved.
+//  Copyright © 2018 Uladzislau Kleshchanka <vladislavitsi@gmail.com>. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

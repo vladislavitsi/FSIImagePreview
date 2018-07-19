@@ -8,12 +8,46 @@
 
 /* Begin PBXBuildFile section */
 		32BF3EAB21006CB9006817DF /* FSIImagePreview.h in Headers */ = {isa = PBXBuildFile; fileRef = 32BF3EA921006CB9006817DF /* FSIImagePreview.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		32BF3EB721006D04006817DF /* FSIControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BF3EB121006D04006817DF /* FSIControllerProtocol.swift */; };
+		32BF3EB821006D04006817DF /* FSIImagePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BF3EB221006D04006817DF /* FSIImagePreviewViewController.swift */; };
+		32BF3EB921006D04006817DF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 32BF3EB321006D04006817DF /* Assets.xcassets */; };
+		32BF3EBA21006D04006817DF /* FSIViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BF3EB421006D04006817DF /* FSIViewControllerDelegate.swift */; };
+		32BF3EBB21006D04006817DF /* FSIPublicInteface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BF3EB521006D04006817DF /* FSIPublicInteface.swift */; };
+		32BF3EBC21006D04006817DF /* FSIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BF3EB621006D04006817DF /* FSIViewController.swift */; };
+		32BF3EC421006D17006817DF /* AbstractBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BF3EBE21006D17006817DF /* AbstractBar.swift */; };
+		32BF3EC521006D17006817DF /* BottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BF3EBF21006D17006817DF /* BottomBar.swift */; };
+		32BF3EC621006D17006817DF /* PagesCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BF3EC021006D17006817DF /* PagesCounter.swift */; };
+		32BF3EC721006D17006817DF /* PreviewBarProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BF3EC121006D17006817DF /* PreviewBarProtocol.swift */; };
+		32BF3EC821006D17006817DF /* PreviewBars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BF3EC221006D17006817DF /* PreviewBars.swift */; };
+		32BF3EC921006D17006817DF /* TopBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BF3EC321006D17006817DF /* TopBar.swift */; };
+		32BF3ECE21006D1C006817DF /* CGSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BF3ECB21006D1C006817DF /* CGSize.swift */; };
+		32BF3ECF21006D1C006817DF /* ImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BF3ECC21006D1C006817DF /* ImageViewExtension.swift */; };
+		32BF3ED021006D1C006817DF /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BF3ECD21006D1C006817DF /* ScrollView.swift */; };
+		32BF3ED521006D2D006817DF /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 32BF3ED221006D2C006817DF /* LICENSE */; };
+		32BF3ED621006D2D006817DF /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 32BF3ED321006D2D006817DF /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		32BF3EA621006CB9006817DF /* FSIImagePreview.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FSIImagePreview.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		32BF3EA921006CB9006817DF /* FSIImagePreview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSIImagePreview.h; sourceTree = "<group>"; };
 		32BF3EAA21006CB9006817DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		32BF3EB121006D04006817DF /* FSIControllerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSIControllerProtocol.swift; sourceTree = "<group>"; };
+		32BF3EB221006D04006817DF /* FSIImagePreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSIImagePreviewViewController.swift; sourceTree = "<group>"; };
+		32BF3EB321006D04006817DF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		32BF3EB421006D04006817DF /* FSIViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSIViewControllerDelegate.swift; sourceTree = "<group>"; };
+		32BF3EB521006D04006817DF /* FSIPublicInteface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSIPublicInteface.swift; sourceTree = "<group>"; };
+		32BF3EB621006D04006817DF /* FSIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSIViewController.swift; sourceTree = "<group>"; };
+		32BF3EBE21006D17006817DF /* AbstractBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbstractBar.swift; sourceTree = "<group>"; };
+		32BF3EBF21006D17006817DF /* BottomBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomBar.swift; sourceTree = "<group>"; };
+		32BF3EC021006D17006817DF /* PagesCounter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagesCounter.swift; sourceTree = "<group>"; };
+		32BF3EC121006D17006817DF /* PreviewBarProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewBarProtocol.swift; sourceTree = "<group>"; };
+		32BF3EC221006D17006817DF /* PreviewBars.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewBars.swift; sourceTree = "<group>"; };
+		32BF3EC321006D17006817DF /* TopBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopBar.swift; sourceTree = "<group>"; };
+		32BF3ECB21006D1C006817DF /* CGSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGSize.swift; sourceTree = "<group>"; };
+		32BF3ECC21006D1C006817DF /* ImageViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewExtension.swift; sourceTree = "<group>"; };
+		32BF3ECD21006D1C006817DF /* ScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollView.swift; sourceTree = "<group>"; };
+		32BF3ED221006D2C006817DF /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		32BF3ED321006D2D006817DF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,9 +81,43 @@
 			isa = PBXGroup;
 			children = (
 				32BF3EA921006CB9006817DF /* FSIImagePreview.h */,
+				32BF3ECA21006D1C006817DF /* Auxiliary */,
+				32BF3EBD21006D17006817DF /* PreviewBar */,
+				32BF3EB121006D04006817DF /* FSIControllerProtocol.swift */,
+				32BF3EB221006D04006817DF /* FSIImagePreviewViewController.swift */,
+				32BF3EB521006D04006817DF /* FSIPublicInteface.swift */,
+				32BF3EB621006D04006817DF /* FSIViewController.swift */,
+				32BF3EB421006D04006817DF /* FSIViewControllerDelegate.swift */,
+				32BF3EB321006D04006817DF /* Assets.xcassets */,
+				32BF3ED221006D2C006817DF /* LICENSE */,
+				32BF3ED321006D2D006817DF /* README.md */,
 				32BF3EAA21006CB9006817DF /* Info.plist */,
 			);
 			path = FSIImagePreview;
+			sourceTree = "<group>";
+		};
+		32BF3EBD21006D17006817DF /* PreviewBar */ = {
+			isa = PBXGroup;
+			children = (
+				32BF3EBE21006D17006817DF /* AbstractBar.swift */,
+				32BF3EBF21006D17006817DF /* BottomBar.swift */,
+				32BF3EC021006D17006817DF /* PagesCounter.swift */,
+				32BF3EC121006D17006817DF /* PreviewBarProtocol.swift */,
+				32BF3EC221006D17006817DF /* PreviewBars.swift */,
+				32BF3EC321006D17006817DF /* TopBar.swift */,
+			);
+			path = PreviewBar;
+			sourceTree = "<group>";
+		};
+		32BF3ECA21006D1C006817DF /* Auxiliary */ = {
+			isa = PBXGroup;
+			children = (
+				32BF3ECB21006D1C006817DF /* CGSize.swift */,
+				32BF3ECC21006D1C006817DF /* ImageViewExtension.swift */,
+				32BF3ECD21006D1C006817DF /* ScrollView.swift */,
+			);
+			name = Auxiliary;
+			path = "../../../../OneDrive - EPAM/Projects/FSIImagePreview/FSIImagePreview/Auxiliary";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -120,6 +188,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32BF3ED521006D2D006817DF /* LICENSE in Resources */,
+				32BF3ED621006D2D006817DF /* README.md in Resources */,
+				32BF3EB921006D04006817DF /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,6 +201,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32BF3EB821006D04006817DF /* FSIImagePreviewViewController.swift in Sources */,
+				32BF3ED021006D1C006817DF /* ScrollView.swift in Sources */,
+				32BF3EC721006D17006817DF /* PreviewBarProtocol.swift in Sources */,
+				32BF3EC421006D17006817DF /* AbstractBar.swift in Sources */,
+				32BF3EBC21006D04006817DF /* FSIViewController.swift in Sources */,
+				32BF3ECE21006D1C006817DF /* CGSize.swift in Sources */,
+				32BF3EC921006D17006817DF /* TopBar.swift in Sources */,
+				32BF3ECF21006D1C006817DF /* ImageViewExtension.swift in Sources */,
+				32BF3EB721006D04006817DF /* FSIControllerProtocol.swift in Sources */,
+				32BF3EC521006D17006817DF /* BottomBar.swift in Sources */,
+				32BF3EC621006D17006817DF /* PagesCounter.swift in Sources */,
+				32BF3EBB21006D04006817DF /* FSIPublicInteface.swift in Sources */,
+				32BF3EC821006D17006817DF /* PreviewBars.swift in Sources */,
+				32BF3EBA21006D04006817DF /* FSIViewControllerDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,6 +353,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = FSIImagePreview/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -293,6 +379,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = FSIImagePreview/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
