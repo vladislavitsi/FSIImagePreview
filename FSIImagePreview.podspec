@@ -10,5 +10,6 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/vladislavitsi/FSIImagePreview.git", :tag => "0.0.1" }
   s.source_files = 'FSIImagePreview/**/*.{swift, h, m}'
   s.swift_version = '4.0'
+  s.resources = "FSIImagePreview/**/*.xcassets"
 
 end
