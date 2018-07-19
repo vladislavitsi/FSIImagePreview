@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.platform      = :ios, "10.0"
   s.source        = { :git => "https://github.com/vladislavitsi/FSIImagePreview.git", :tag => "0.0.1" }
   s.source_files  = 'FSIImagePreview/**/*.{swift, h, m}'
-  s.swift_version = '4.0'
+  s.swift_version = '4.1'
   s.resources     = "FSIImagePreview/**/*.xcassets"
 
 end

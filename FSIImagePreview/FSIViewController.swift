@@ -8,15 +8,24 @@
 
 import UIKit
 
+// ViewController that represents an images preview gallery. Support multiple images. Open, using
 public class FSIViewController: UIPageViewController {
+    /// Initial view, that will be hidden, while the FSIViewController is presenting.
     @objc public var initialView: UIView?
+    
+    /// Action sheet, nil by default. Opens by tapping the action button.
     @objc public var actionSheet: UIAlertController?
+    
+    /// Image array, that is showing up in image preview. Always specify it.
     @objc public var images: [UIImage]? {
         didSet {
             updateImagePreviewViewControllers(for: images!)
         }
     }
+    
+    /// FSIViewController delegate, use it to handle events, like tapping or changing pages, etc.
     @objc public weak var fsiDelegate: FSIViewControllerDelegate?
+    
     private var previewBars: PreviewBars!
     private var statusBarShouldBeHidden = false {
         didSet {
@@ -82,7 +91,7 @@ public class FSIViewController: UIPageViewController {
             let index = imagePreviewViewControllers.index(of: previewViewController) else {
                 return 0
         }
-        return index+1
+        return index + 1
     }
     
     func dissmiss() {
@@ -91,16 +100,15 @@ public class FSIViewController: UIPageViewController {
             self.view.alpha = 0.0
             self.statusBar(shouldBeHidden: false)
             self.setNeedsStatusBarAppearanceUpdate()
-            }, completion: { [unowned self] _ in
-                UIApplication.shared.statusBarStyle = self.initialStatusBarStyle
-                self.presentingViewController?.dismiss(animated: false)
+        }, completion: { [unowned self] _ in
+            UIApplication.shared.statusBarStyle = self.initialStatusBarStyle
+            self.presentingViewController?.dismiss(animated: false)
         })
     }
-    
-    
 }
 
-//    MARK: Status Bar settings
+// MARK: -
+// MARK: Status Bar settings
 extension FSIViewController {
     override public var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
         return .slide
@@ -117,7 +125,8 @@ extension FSIViewController {
     }
 }
 
-//    MARK: FullScreenControllerProtocol
+// MARK: -
+// MARK: FullScreenControllerProtocol
 extension FSIViewController: FSIControllerProtocol {
     func getInitialImageFrame() -> CGRect? {
         return initialView?.globalFrame
@@ -141,13 +150,8 @@ extension FSIViewController: FSIControllerProtocol {
         dissmiss()
     }
     
-    func getPageScrollView() -> UIScrollView! {
-        for view in view.subviews {
-            if let scrollView = view as? UIScrollView {
-                return scrollView
-            }
-        }
-        return nil
+    func getPageScrollView() -> UIScrollView? {
+        return view.subviews.compactMap { $0 as? UIScrollView }.first
     }
     
     func didSwipe() {
@@ -155,7 +159,8 @@ extension FSIViewController: FSIControllerProtocol {
     }
 }
 
-//    MARK: UIPageViewControllerDataSource
+// MARK: -
+// MARK: UIPageViewControllerDataSource
 extension FSIViewController: UIPageViewControllerDataSource {
     private enum Direction {
         case next
@@ -174,7 +179,7 @@ extension FSIViewController: UIPageViewControllerDataSource {
                 }
                 return imagePreviewViewControllers[newIndex - 1]
             case .next:
-                guard newIndex != imagePreviewViewControllers.count-1 else {
+                guard newIndex != imagePreviewViewControllers.count - 1 else {
                         return nil
                 }
                 return imagePreviewViewControllers[newIndex + 1]
@@ -190,6 +195,8 @@ extension FSIViewController: UIPageViewControllerDataSource {
     }
 }
 
+// MARK: -
+// MARK: UIPageViewControllerDelegate
 extension FSIViewController: UIPageViewControllerDelegate {
     public func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         guard completed else {
@@ -199,6 +206,8 @@ extension FSIViewController: UIPageViewControllerDelegate {
     }
 }
 
+// MARK: -
+// MARK: PreviewBarDelegate
 extension FSIViewController: PreviewBarDelegate {
     func backButtonPressed() {
         dissmiss()
@@ -215,6 +224,8 @@ extension FSIViewController: PreviewBarDelegate {
     }
 }
 
+// MARK: -
+// MARK: FSIPublicInterface
 extension FSIViewController: FSIPublicInteface {
     public var topBarView: UIView {
         return previewBars.topBar.view
@@ -232,8 +243,8 @@ extension FSIViewController: FSIPublicInteface {
         return previewBars.topBar.pageCounter.ofLabel
     }
     
-    public var toCounterLabel: UILabel {
-        return previewBars.topBar.pageCounter.allNumberLabel
+    public var totalNumberLabel: UILabel {
+        return previewBars.topBar.pageCounter.totalNumberLabel
     }
     
     public var backButton: UIButton {
@@ -248,4 +259,7 @@ extension FSIViewController: FSIPublicInteface {
         previewBars.isHidden ? previewBars.hideBars() : previewBars.showBars()
     }
     
+    public func show(on viewController: UIViewController) {
+        viewController.present(self, animated: false)
+    }
 }

@@ -9,7 +9,7 @@
 import UIKit
 
 protocol FSIControllerProtocol: class {
-    func getPageScrollView() -> UIScrollView!
+    func getPageScrollView() -> UIScrollView?
     func getInitialImageFrame() -> CGRect?
     func didTap()
     func didDoubleTap()

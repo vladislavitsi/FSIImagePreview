@@ -15,7 +15,7 @@ public class PageCounter {
     let view = UIStackView()
     let currentLabel = UILabel()
     let ofLabel = UILabel()
-    let allNumberLabel = UILabel()
+    let totalNumberLabel = UILabel()
     
     init() {
         view.spacing = 7
@@ -28,10 +28,10 @@ public class PageCounter {
         currentLabel.textAlignment = .right
         ofLabel.text = "Of"
         ofLabel.textAlignment = .center
-        allNumberLabel.text = "1"
-        allNumberLabel.textAlignment = .left
+        totalNumberLabel.text = "1"
+        totalNumberLabel.textAlignment = .left
         
-        let labels = [currentLabel, ofLabel, allNumberLabel]
+        let labels = [currentLabel, ofLabel, totalNumberLabel]
         labels.forEach { label in
             label.font = PageCounter.defaultFont
             label.textColor = .white
@@ -44,6 +44,6 @@ public class PageCounter {
     }
     
     func setAll(number: Int) {
-        allNumberLabel.text = String(number)
+        totalNumberLabel.text = String(number)
     }
 }

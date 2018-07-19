@@ -8,9 +8,17 @@
 
 import UIKit
 
+/// Delegate protocol, conform to it to handle FSIViewController's generated events.
 @objc public protocol FSIViewControllerDelegate: class {
+    /// Called on tap
     func didTap()
+    
+    /// Called on double tap
     func didDoubleTap()
+    
+    /// Called on swipe back, before the viewController will be dissessed
     func didSwipeBack()
+    
+    /// Called on page changing
     func didChangePage()
 }
