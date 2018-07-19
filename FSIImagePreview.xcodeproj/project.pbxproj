@@ -20,12 +20,12 @@
 		32BF3EC721006D17006817DF /* PreviewBarProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BF3EC121006D17006817DF /* PreviewBarProtocol.swift */; };
 		32BF3EC821006D17006817DF /* PreviewBars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BF3EC221006D17006817DF /* PreviewBars.swift */; };
 		32BF3EC921006D17006817DF /* TopBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BF3EC321006D17006817DF /* TopBar.swift */; };
-		32BF3ECE21006D1C006817DF /* CGSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BF3ECB21006D1C006817DF /* CGSize.swift */; };
-		32BF3ECF21006D1C006817DF /* ImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BF3ECC21006D1C006817DF /* ImageViewExtension.swift */; };
-		32BF3ED021006D1C006817DF /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BF3ECD21006D1C006817DF /* ScrollView.swift */; };
 		32BF3EDA21006F95006817DF /* FSIImagePreview.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 32BF3ED721006F95006817DF /* FSIImagePreview.podspec */; };
 		32BF3EDB21006F95006817DF /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 32BF3ED821006F95006817DF /* LICENSE */; };
 		32BF3EDC21006F95006817DF /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 32BF3ED921006F95006817DF /* README.md */; };
+		32BF3EE621007147006817DF /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BF3EE321007147006817DF /* ScrollView.swift */; };
+		32BF3EE721007147006817DF /* CGSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BF3EE421007147006817DF /* CGSize.swift */; };
+		32BF3EE821007147006817DF /* ImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BF3EE521007147006817DF /* ImageViewExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,12 +44,12 @@
 		32BF3EC121006D17006817DF /* PreviewBarProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewBarProtocol.swift; sourceTree = "<group>"; };
 		32BF3EC221006D17006817DF /* PreviewBars.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewBars.swift; sourceTree = "<group>"; };
 		32BF3EC321006D17006817DF /* TopBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopBar.swift; sourceTree = "<group>"; };
-		32BF3ECB21006D1C006817DF /* CGSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGSize.swift; sourceTree = "<group>"; };
-		32BF3ECC21006D1C006817DF /* ImageViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewExtension.swift; sourceTree = "<group>"; };
-		32BF3ECD21006D1C006817DF /* ScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollView.swift; sourceTree = "<group>"; };
 		32BF3ED721006F95006817DF /* FSIImagePreview.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FSIImagePreview.podspec; sourceTree = SOURCE_ROOT; };
 		32BF3ED821006F95006817DF /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
 		32BF3ED921006F95006817DF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		32BF3EE321007147006817DF /* ScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScrollView.swift; path = FSIImagePreview/Auxiliary/ScrollView.swift; sourceTree = SOURCE_ROOT; };
+		32BF3EE421007147006817DF /* CGSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CGSize.swift; path = FSIImagePreview/Auxiliary/CGSize.swift; sourceTree = SOURCE_ROOT; };
+		32BF3EE521007147006817DF /* ImageViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageViewExtension.swift; path = FSIImagePreview/Auxiliary/ImageViewExtension.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,9 +115,9 @@
 		32BF3ECA21006D1C006817DF /* Auxiliary */ = {
 			isa = PBXGroup;
 			children = (
-				32BF3ECB21006D1C006817DF /* CGSize.swift */,
-				32BF3ECC21006D1C006817DF /* ImageViewExtension.swift */,
-				32BF3ECD21006D1C006817DF /* ScrollView.swift */,
+				32BF3EE421007147006817DF /* CGSize.swift */,
+				32BF3EE521007147006817DF /* ImageViewExtension.swift */,
+				32BF3EE321007147006817DF /* ScrollView.swift */,
 			);
 			name = Auxiliary;
 			path = "../../../../OneDrive - EPAM/Projects/FSIImagePreview/FSIImagePreview/Auxiliary";
@@ -206,14 +206,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				32BF3EB821006D04006817DF /* FSIImagePreviewViewController.swift in Sources */,
-				32BF3ED021006D1C006817DF /* ScrollView.swift in Sources */,
+				32BF3EE721007147006817DF /* CGSize.swift in Sources */,
 				32BF3EC721006D17006817DF /* PreviewBarProtocol.swift in Sources */,
 				32BF3EC421006D17006817DF /* AbstractBar.swift in Sources */,
 				32BF3EBC21006D04006817DF /* FSIViewController.swift in Sources */,
-				32BF3ECE21006D1C006817DF /* CGSize.swift in Sources */,
 				32BF3EC921006D17006817DF /* TopBar.swift in Sources */,
-				32BF3ECF21006D1C006817DF /* ImageViewExtension.swift in Sources */,
+				32BF3EE621007147006817DF /* ScrollView.swift in Sources */,
 				32BF3EB721006D04006817DF /* FSIControllerProtocol.swift in Sources */,
+				32BF3EE821007147006817DF /* ImageViewExtension.swift in Sources */,
 				32BF3EC521006D17006817DF /* BottomBar.swift in Sources */,
 				32BF3EC621006D17006817DF /* PagesCounter.swift in Sources */,
 				32BF3EBB21006D04006817DF /* FSIPublicInteface.swift in Sources */,
