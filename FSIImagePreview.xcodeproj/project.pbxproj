@@ -23,8 +23,9 @@
 		32BF3ECE21006D1C006817DF /* CGSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BF3ECB21006D1C006817DF /* CGSize.swift */; };
 		32BF3ECF21006D1C006817DF /* ImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BF3ECC21006D1C006817DF /* ImageViewExtension.swift */; };
 		32BF3ED021006D1C006817DF /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BF3ECD21006D1C006817DF /* ScrollView.swift */; };
-		32BF3ED521006D2D006817DF /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 32BF3ED221006D2C006817DF /* LICENSE */; };
-		32BF3ED621006D2D006817DF /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 32BF3ED321006D2D006817DF /* README.md */; };
+		32BF3EDA21006F95006817DF /* FSIImagePreview.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 32BF3ED721006F95006817DF /* FSIImagePreview.podspec */; };
+		32BF3EDB21006F95006817DF /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 32BF3ED821006F95006817DF /* LICENSE */; };
+		32BF3EDC21006F95006817DF /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 32BF3ED921006F95006817DF /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,8 +47,9 @@
 		32BF3ECB21006D1C006817DF /* CGSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGSize.swift; sourceTree = "<group>"; };
 		32BF3ECC21006D1C006817DF /* ImageViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewExtension.swift; sourceTree = "<group>"; };
 		32BF3ECD21006D1C006817DF /* ScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollView.swift; sourceTree = "<group>"; };
-		32BF3ED221006D2C006817DF /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		32BF3ED321006D2D006817DF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		32BF3ED721006F95006817DF /* FSIImagePreview.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FSIImagePreview.podspec; sourceTree = SOURCE_ROOT; };
+		32BF3ED821006F95006817DF /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
+		32BF3ED921006F95006817DF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,8 +91,9 @@
 				32BF3EB621006D04006817DF /* FSIViewController.swift */,
 				32BF3EB421006D04006817DF /* FSIViewControllerDelegate.swift */,
 				32BF3EB321006D04006817DF /* Assets.xcassets */,
-				32BF3ED221006D2C006817DF /* LICENSE */,
-				32BF3ED321006D2D006817DF /* README.md */,
+				32BF3ED721006F95006817DF /* FSIImagePreview.podspec */,
+				32BF3ED821006F95006817DF /* LICENSE */,
+				32BF3ED921006F95006817DF /* README.md */,
 				32BF3EAA21006CB9006817DF /* Info.plist */,
 			);
 			path = FSIImagePreview;
@@ -188,9 +191,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				32BF3ED521006D2D006817DF /* LICENSE in Resources */,
-				32BF3ED621006D2D006817DF /* README.md in Resources */,
+				32BF3EDC21006F95006817DF /* README.md in Resources */,
+				32BF3EDA21006F95006817DF /* FSIImagePreview.podspec in Resources */,
 				32BF3EB921006D04006817DF /* Assets.xcassets in Resources */,
+				32BF3EDB21006F95006817DF /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
