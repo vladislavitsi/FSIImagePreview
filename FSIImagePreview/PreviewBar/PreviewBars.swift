@@ -34,7 +34,7 @@ class PreviewBars {
             self.delegate?.backButtonPressed()
         }
         
-        hideBars()
+        setBars(isHidden: true)
         
         superview.addSubview(statusBarFillingView)
         
@@ -81,32 +81,14 @@ class PreviewBars {
         
     }
     
-    func showBars(animated: Bool = false) {
-        let action = { [unowned self] in
-            self.statusBarFillingView.alpha = 1
-            self.bottomSafeAreaFiller.alpha = 1
-            self.topBar.view.alpha = 1
-            self.bottomBar.view.alpha = 1
-            self.isHidden = false
-            self.delegate?.setStatusBar(isHidden: false)
-        }
-        if animated {
-            UIView.animate(withDuration: AnimationDuration.medium.rawValue, delay: 0, options: .allowUserInteraction, animations: {
-                action()
-            })
-        } else {
-            action()
-        }
-    }
-    
-    func hideBars(animated: Bool = false) {
-        let action = { [unowned self] in
-            self.statusBarFillingView.alpha = 0
-            self.bottomSafeAreaFiller.alpha = 0
-            self.topBar.view.alpha = 0
-            self.bottomBar.view.alpha = 0
-            self.isHidden = true
-            self.delegate?.setStatusBar(isHidden: true)
+    func setBars(isHidden: Bool, animated: Bool = false) {
+        let action = { [weak self] in
+            self?.statusBarFillingView.alpha = isHidden ? 0 : 1
+            self?.bottomSafeAreaFiller.alpha = isHidden ? 0 : 1
+            self?.topBar.view.alpha = isHidden ? 0 : 1
+            self?.bottomBar.view.alpha = isHidden ? 0 : 1
+            self?.isHidden = isHidden
+            self?.delegate?.setStatusBar(isHidden: isHidden)
         }
         if animated {
             UIView.animate(withDuration: AnimationDuration.short.rawValue, delay: 0, options: .allowUserInteraction, animations: {
@@ -116,9 +98,9 @@ class PreviewBars {
             action()
         }
     }
+
     
     func changeState() {
-        let action = self.isHidden ? self.showBars : self.hideBars
-        action(true)
+        setBars(isHidden: !isHidden, animated: true)
     }
 }

@@ -74,7 +74,7 @@ public class FSIViewController: UIPageViewController {
         self.initialView?.alpha = 0.01
         UIView.animate(withDuration: AnimationDuration.medium.rawValue) { [unowned self] in
             self.view.backgroundColor = .black
-            self.previewBars?.showBars()
+            self.previewBars?.setBars(isHidden: false)
         }
         UIView.animate(withDuration: AnimationDuration.medium.rawValue,
                        delay: 0,
@@ -174,14 +174,10 @@ extension FSIViewController: UIPageViewControllerDataSource {
         }
         switch direction {
             case .back:
-                guard newIndex != 0 else {
-                        return nil
-                }
+                guard newIndex != 0 else { return nil }
                 return imagePreviewViewControllers[newIndex - 1]
             case .next:
-                guard newIndex != imagePreviewViewControllers.count - 1 else {
-                        return nil
-                }
+                guard newIndex != imagePreviewViewControllers.count - 1 else { return nil }
                 return imagePreviewViewControllers[newIndex + 1]
         }
     }
@@ -256,7 +252,7 @@ extension FSIViewController: FSIPublicInteface {
     }
     
     public func setPreviewBar(isHidden: Bool) {
-        previewBars.isHidden ? previewBars.hideBars() : previewBars.showBars()
+        previewBars.setBars(isHidden: previewBars.isHidden)
     }
     
     public func show(on viewController: UIViewController) {
