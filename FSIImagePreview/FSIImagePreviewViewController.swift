@@ -111,9 +111,10 @@ class FSIImagePreviewViewController: UIViewController {
     
 //    update constraints when orientation changed
     override public func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        updateImageConstraints(with: size)
+        updateImageConstraints(with: size, isInitial: false)
     }
     
+    /// Locates constraint for first view
     func initialLocateView() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -121,10 +122,11 @@ class FSIImagePreviewViewController: UIViewController {
             constraintY,
             constraintX
         ])
-        updateImageConstraints(with: UIScreen.main.bounds.size)
+        updateImageConstraints(with: UIScreen.main.bounds.size, isInitial: true)
     }
     
-    private func updateImageConstraints(with size: CGSize) {
+    /// Update constraints of imageView depending on device orientation
+    private func updateImageConstraints(with size: CGSize, isInitial: Bool) {
         if size.ratio() > image.size.ratio() {
             scrollView.removeConstraints(portraitModeConstraints)
             NSLayoutConstraint.activate(landscapeModeConstraints)
@@ -133,7 +135,9 @@ class FSIImagePreviewViewController: UIViewController {
             NSLayoutConstraint.activate(portraitModeConstraints)
         }
         self.scrollView.zoomScale = 1.0
-        self.view.layoutIfNeeded()
+        if isInitial {
+            self.view.layoutIfNeeded()
+        }
     }
 
     private func centerZoomView() {
