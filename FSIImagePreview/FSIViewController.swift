@@ -56,7 +56,7 @@ public class FSIViewController: UIPageViewController {
     func updateImagePreviewViewControllers(for images: [UIImage]) {
         var imagePreviewViewControllers = [FSIImagePreviewViewController]()
         for (number, image) in images.enumerated() {
-            imagePreviewViewControllers.append(FSIImagePreviewViewController(with: image, delegate: self, shouldAppearAnimated: number == 0))
+            imagePreviewViewControllers.append(FSIImagePreviewViewController(with: image, fsiController: self, shouldAppearAnimated: number == 0))
         }
         self.imagePreviewViewControllers = imagePreviewViewControllers
         setViewControllers([imagePreviewViewControllers.first!], direction: .forward, animated: false)

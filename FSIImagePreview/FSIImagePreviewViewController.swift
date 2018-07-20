@@ -8,67 +8,39 @@
 
 import UIKit
 
-class FSIImagePreviewViewController: UIViewController {
+fileprivate typealias ConstraintsGaps = (vertical: CGFloat, horizontal: CGFloat)
+fileprivate typealias OrientationConstraints = (portrait: [NSLayoutConstraint], landscape: [NSLayoutConstraint])
+fileprivate typealias AxisConstraints = (x: NSLayoutConstraint, y: NSLayoutConstraint)
 
-    private weak var delegate: FSIControllerProtocol?
-    private let image: UIImage
-    private var imageView: UIImageView!
+/// ViewController that manage single image page, with UIScrollView and UIImageView on it.
+class FSIImagePreviewViewController: UIViewController {
+    private weak var fsiController: FSIControllerProtocol?
+    private let imageRatio: CGFloat
+    private var imageView: UIImageView
     private var scrollView: ScrollView!
-    private var constraintX: NSLayoutConstraint!
-    private var constraintY: NSLayoutConstraint!
-    private lazy var portraitModeConstraints: [NSLayoutConstraint] = []
-    private lazy var landscapeModeConstraints: [NSLayoutConstraint] = []
-    private var verticalGap: CGFloat = 0.0
-    private var horizontalGap: CGFloat = 0.0
-    private var panGestureRecognizer: UIPanGestureRecognizer!
-    private var initialCenter = CGPoint.zero
     private let shouldAppearAnimated: Bool
     private var pageScrollView: UIScrollView?
+    
+    private var panGestureRecognizer: UIPanGestureRecognizer!
+    private lazy var initialCenter = CGPoint.zero
     private var dimensionIsLocked = false
     
-    init (with image: UIImage, delegate: FSIControllerProtocol, shouldAppearAnimated: Bool = false) {
-        self.image = image
-        self.delegate = delegate
+    private var axisConstraints: AxisConstraints!
+    private lazy var orientationConstraints = OrientationConstraints([NSLayoutConstraint](), [NSLayoutConstraint]())
+    private lazy var constraintGaps = ConstraintsGaps(0, 0)
+    
+    init (with image: UIImage, fsiController: FSIControllerProtocol, shouldAppearAnimated: Bool = false) {
+        self.imageRatio = image.size.ratio()
+        self.fsiController = fsiController
         self.shouldAppearAnimated = shouldAppearAnimated
-        pageScrollView = delegate.getPageScrollView()
+        self.pageScrollView = fsiController.getPageScrollView()
+        self.imageView = UIImageView.getCustomImageView(for: image, initialFrame: shouldAppearAnimated ? fsiController.getInitialImageFrame() : CGRect.zero)
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    private func computeConstraints() {
-        portraitModeConstraints = [
-            imageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-        ]
-        landscapeModeConstraints = [
-            imageView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            imageView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-        ]
-        
-        let imageViewToScrollViewConstraints = [
-            imageView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            imageView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            imageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor)
-        ]
-        imageViewToScrollViewConstraints.forEach { constraint in
-            constraint.priority = .defaultHigh
-            constraint.isActive = true
-        }
-        
-        let screenSize = UIApplication.shared.keyWindow!.frame.size
-        let screenHeight = max(screenSize.height, screenSize.width)
-        let screenWidth = min(screenSize.height, screenSize.width)
-        verticalGap = (screenHeight - ceil(screenWidth/image.size.ratio()))/2
-        horizontalGap = (screenHeight - ceil(screenWidth*image.size.ratio()))/2
-        
-        constraintY = imageView.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor)
-        constraintX = imageView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
-    }
-    
     override func loadView() {
         view = UIView()
         
@@ -81,11 +53,39 @@ class FSIImagePreviewViewController: UIViewController {
             scrollView.heightAnchor.constraint(equalTo: view.heightAnchor),
         ])
         
-        let initialFrame = shouldAppearAnimated ? delegate?.getInitialImageFrame() : CGRect.zero
-        imageView = UIImageView.getCustomImageView(for: image, initialFrame: initialFrame)
         scrollView.addSubview(imageView)
+        [imageView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+         imageView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+         imageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+         imageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor)].forEach { constraint in
+            constraint.priority = .defaultHigh
+            constraint.isActive = true
+        }
         
         computeConstraints()
+    }
+    
+    private func computeConstraints() {
+        orientationConstraints.portrait += [
+            imageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+        ]
+        orientationConstraints.landscape += [
+            imageView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            imageView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+        ]
+
+        let screenSize = UIApplication.shared.keyWindow!.frame.size
+        let screenHeight = max(screenSize.height, screenSize.width)
+        let screenWidth = min(screenSize.height, screenSize.width)
+        
+        constraintGaps = ConstraintsGaps(
+            vertical: (screenHeight - ceil(screenWidth / imageRatio))/2,
+            horizontal: (screenHeight - ceil(screenWidth * imageRatio))/2)
+        
+        axisConstraints = AxisConstraints(
+            x: imageView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            y: imageView.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor))
     }
     
     override func viewDidLoad() {
@@ -94,6 +94,10 @@ class FSIImagePreviewViewController: UIViewController {
             initialLocateView()
         }
         scrollView.delegate = self
+        setupGestureRecognizers()
+    }
+    
+    private func setupGestureRecognizers() {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapped(_:)))
         let doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(doubleTapped(_:)))
         doubleTapGestureRecognizer.numberOfTapsRequired = 2
@@ -118,112 +122,130 @@ class FSIImagePreviewViewController: UIViewController {
     func initialLocateView() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: image.size.ratio()),
-            constraintY,
-            constraintX
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: imageRatio),
+            axisConstraints.y,
+            axisConstraints.x
         ])
         updateImageConstraints(with: UIScreen.main.bounds.size, isInitial: true)
     }
     
     /// Update constraints of imageView depending on device orientation
     private func updateImageConstraints(with size: CGSize, isInitial: Bool) {
-        if size.ratio() > image.size.ratio() {
-            scrollView.removeConstraints(portraitModeConstraints)
-            NSLayoutConstraint.activate(landscapeModeConstraints)
+        if size.ratio() > imageRatio {
+            scrollView.removeConstraints(orientationConstraints.portrait)
+            NSLayoutConstraint.activate(orientationConstraints.landscape)
         } else {
-            scrollView.removeConstraints(landscapeModeConstraints)
-            NSLayoutConstraint.activate(portraitModeConstraints)
+            scrollView.removeConstraints(orientationConstraints.landscape)
+            NSLayoutConstraint.activate(orientationConstraints.portrait)
         }
-        self.scrollView.zoomScale = 1.0
+        scrollView.zoomScale = scrollView.minimumZoomScale
         if isInitial {
-            self.view.layoutIfNeeded()
+            view.layoutIfNeeded()
         }
     }
 
     private func centerZoomView() {
-        if scrollView.frame.size.ratio() > image.size.ratio() {
-            constraintX.constant = max((scrollView.bounds.size.width - imageView.frame.size.width)/2 - horizontalGap, -horizontalGap)
+        if scrollView.frame.size.ratio() > imageRatio {
+            axisConstraints.x.constant = max((scrollView.bounds.size.width - imageView.frame.size.width)/2 - constraintGaps.horizontal, -constraintGaps.horizontal)
         } else {
-            constraintY.constant = max((scrollView.bounds.size.height - imageView.frame.size.height)/2 - verticalGap, -verticalGap)
+            axisConstraints.y.constant = max((scrollView.bounds.size.height - imageView.frame.size.height)/2 - constraintGaps.vertical, -constraintGaps.vertical)
         }
         view.layoutIfNeeded()
     }
 }
 
+// MARK: -
+// MARK: GestureRecognizers action handlers
 extension FSIImagePreviewViewController {
     @objc private func tapped(_ recognizer: UITapGestureRecognizer) {
-        delegate?.didTap()
+        fsiController?.didTap()
     }
     
     @objc private func doubleTapped(_ recognizer: UITapGestureRecognizer) {
         scrollView.zoomWithAnimation()
-        delegate?.didDoubleTap()
+        fsiController?.didDoubleTap()
     }
     
+    /// Prevents two dimensional scroll.
+    private func checkDimensionToLock(_ translation: CGPoint, _ gestureRecognizer: UIPanGestureRecognizer) {
+        guard dimensionIsLocked != true else { return }
+        let translationX = abs(translation.x)
+        let translationY = abs(translation.y)
+        if translationX > 10 && translationY < 21 {
+            gestureRecognizer.isEnabled = false
+            dimensionIsLocked = true
+        }
+        if translationY > 10 && translationX < 21 {
+            pageScrollView?.isScrollEnabled = false
+            dimensionIsLocked = true
+        }
+    }
+    
+    private func swipeGestureCompletion(_ gestureRecognizer: UIPanGestureRecognizer, _ piece: UIView) {
+        gestureRecognizer.isEnabled = true
+        pageScrollView?.isScrollEnabled = true
+        dimensionIsLocked = false
+        UIView.animate(withDuration: AnimationDuration.short.rawValue) { [unowned self] in
+            piece.center = self.initialCenter
+            self.fsiController?.apply(alpha: 1.0)
+        }
+    }
+    
+    private func swipeGestureHandleProgress(_ piece: UIView, _ translation: CGPoint) {
+        piece.center = CGPoint(x: initialCenter.x, y: initialCenter.y + translation.y)
+        let yOffset = abs(translation.y)
+        let alpha = 1 - 0.003 * (yOffset < 150 ? yOffset : 150)
+        fsiController?.apply(alpha: alpha)
+        if alpha < 1.0 {
+            fsiController?.didSwipe()
+        }
+    }
+    
+    private func didSwipeToDismiss(_ piece: UIView, _ translation: CGPoint, _ gestureRecognizer: UIPanGestureRecognizer) -> Bool {
+        return abs(gestureRecognizer.velocity(in: piece.superview).y) > 700 || abs(translation.y) > 150
+    }
+    
+    /// Called when user doing pan gesture on imageView.
     @objc func moved(_ gestureRecognizer: UIPanGestureRecognizer) {
-        guard gestureRecognizer.view != nil else {return}
+        guard gestureRecognizer.view != nil else { return }
         let piece = gestureRecognizer.view!
         let translation = gestureRecognizer.translation(in: piece.superview)
         if gestureRecognizer.state == .began {
             self.initialCenter = piece.center
         }
-        if abs(translation.x) > 10 && abs(translation.y) < 21 {
-            if !dimensionIsLocked {
-                gestureRecognizer.isEnabled = false
-                dimensionIsLocked = true
-            }
-        }
-        if abs(translation.y) > 10 && abs(translation.x) < 21 {
-            if !dimensionIsLocked {
-                pageScrollView?.isScrollEnabled = false
-                dimensionIsLocked = true
-            }
-        }
+        checkDimensionToLock(translation, gestureRecognizer)
         
         if gestureRecognizer.state != .cancelled {
-            piece.center = CGPoint(x: initialCenter.x, y: initialCenter.y + translation.y)
-            let yOffset = abs(translation.y)
-            let alpha = 1 - 0.003 * (yOffset < 150 ? yOffset : 150)
-            delegate?.apply(alpha: alpha)
-            if alpha < 1.0 {
-                delegate?.didSwipe()
-            }
+            swipeGestureHandleProgress(piece, translation)
         }
-        if gestureRecognizer.state == .ended {
-            if abs(gestureRecognizer.velocity(in: piece.superview).y) > 700 {
-                delegate?.didSwipeBack()
-                return
-            }
-            if abs(translation.y) > 150 {
-                delegate?.didSwipeBack()
-                return
-            }
+        if gestureRecognizer.state == .ended && didSwipeToDismiss(piece, translation, gestureRecognizer){
+            fsiController?.didSwipeBack()
+            return
         }
         if gestureRecognizer.state == .ended || gestureRecognizer.state == .cancelled || gestureRecognizer.state == .failed {
-            gestureRecognizer.isEnabled = true
-            pageScrollView?.isScrollEnabled = true
-            dimensionIsLocked = false
-            UIView.animate(withDuration: AnimationDuration.short.rawValue) { [unowned self] in
-                piece.center = self.initialCenter
-                self.delegate?.apply(alpha: 1.0)
-            }
+            swipeGestureCompletion(gestureRecognizer, piece)
         }
     }
 }
 
+// MARK: -
+// MARK: UIScrollViewDelegate
 extension FSIImagePreviewViewController: UIScrollViewDelegate {
     public func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageView
     }
     
     public func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        panGestureRecognizer.isEnabled = scrollView.zoomScale == 1
+        panGestureRecognizer.isEnabled = scrollView.zoomScale == scrollView.minimumZoomScale
         centerZoomView()
     }
 }
 
+// MARK: -
+// MARK: UIGestureRecognizerDelegate
 extension FSIImagePreviewViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 }
+

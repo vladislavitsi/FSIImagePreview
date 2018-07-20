@@ -46,7 +46,7 @@
 		32BF3EC121006D17006817DF /* PreviewBarProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewBarProtocol.swift; sourceTree = "<group>"; };
 		32BF3EC221006D17006817DF /* PreviewBars.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewBars.swift; sourceTree = "<group>"; };
 		32BF3EC321006D17006817DF /* TopBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopBar.swift; sourceTree = "<group>"; };
-		32BF3ED721006F95006817DF /* FSIImagePreview.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FSIImagePreview.podspec; sourceTree = SOURCE_ROOT; };
+		32BF3ED721006F95006817DF /* FSIImagePreview.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FSIImagePreview.podspec; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		32BF3ED821006F95006817DF /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
 		32BF3ED921006F95006817DF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		32BF3EE321007147006817DF /* ScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScrollView.swift; path = FSIImagePreview/Extensions/ScrollView.swift; sourceTree = SOURCE_ROOT; };
