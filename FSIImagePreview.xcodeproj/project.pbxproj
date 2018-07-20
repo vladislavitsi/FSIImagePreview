@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3243D4332101DBC00013BAE5 /* AnimationDuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3243D4322101DBC00013BAE5 /* AnimationDuration.swift */; };
 		32BF3EAB21006CB9006817DF /* FSIImagePreview.h in Headers */ = {isa = PBXBuildFile; fileRef = 32BF3EA921006CB9006817DF /* FSIImagePreview.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		32BF3EB721006D04006817DF /* FSIControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BF3EB121006D04006817DF /* FSIControllerProtocol.swift */; };
 		32BF3EB821006D04006817DF /* FSIImagePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BF3EB221006D04006817DF /* FSIImagePreviewViewController.swift */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3243D4322101DBC00013BAE5 /* AnimationDuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationDuration.swift; sourceTree = "<group>"; };
 		32BF3EA621006CB9006817DF /* FSIImagePreview.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FSIImagePreview.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		32BF3EA921006CB9006817DF /* FSIImagePreview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSIImagePreview.h; sourceTree = "<group>"; };
 		32BF3EAA21006CB9006817DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 		32BF3EA821006CB9006817DF /* FSIImagePreview */ = {
 			isa = PBXGroup;
 			children = (
+				3243D4322101DBC00013BAE5 /* AnimationDuration.swift */,
 				32BF3EA921006CB9006817DF /* FSIImagePreview.h */,
 				32BF3EBD21006D17006817DF /* PreviewBar */,
 				32BF3EEA21007211006817DF /* Extensions */,
@@ -216,6 +219,7 @@
 				32BF3EC521006D17006817DF /* BottomBar.swift in Sources */,
 				32BF3EC621006D17006817DF /* PagesCounter.swift in Sources */,
 				32BF3EBB21006D04006817DF /* FSIPublicInteface.swift in Sources */,
+				3243D4332101DBC00013BAE5 /* AnimationDuration.swift in Sources */,
 				32BF3EC821006D17006817DF /* PreviewBars.swift in Sources */,
 				32BF3EBA21006D04006817DF /* FSIViewControllerDelegate.swift in Sources */,
 			);

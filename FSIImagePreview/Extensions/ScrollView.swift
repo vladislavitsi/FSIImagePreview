@@ -38,7 +38,7 @@ extension ScrollView {
     }
     
     private func zoomWithAnimation(to scale: CGFloat) {
-        UIView.animate(withDuration: ScrollView.ZOOM_ANIMATION) { [unowned self] in
+        UIView.animate(withDuration: AnimationDuration.medium.rawValue) { [unowned self] in
             self.zoomScale = scale
         }
     }

@@ -72,11 +72,11 @@ public class FSIViewController: UIPageViewController {
     
     override public func viewDidAppear(_ animated: Bool) {
         self.initialView?.alpha = 0.01
-        UIView.animate(withDuration: 0.3) { [unowned self] in
+        UIView.animate(withDuration: AnimationDuration.medium.rawValue) { [unowned self] in
             self.view.backgroundColor = .black
             self.previewBars?.showBars()
         }
-        UIView.animate(withDuration: 0.4,
+        UIView.animate(withDuration: AnimationDuration.medium.rawValue,
                        delay: 0,
                        usingSpringWithDamping: 0.7,
                        initialSpringVelocity: 5,
@@ -95,7 +95,7 @@ public class FSIViewController: UIPageViewController {
     }
     
     func dissmiss() {
-        UIView.animate(withDuration: 0.3, delay: 0.0, options: [.allowAnimatedContent], animations: { [unowned self] in
+        UIView.animate(withDuration: AnimationDuration.medium.rawValue, delay: 0.0, options: [.allowAnimatedContent], animations: { [unowned self] in
             self.initialView?.alpha = 1
             self.view.alpha = 0.0
             self.statusBar(shouldBeHidden: false)

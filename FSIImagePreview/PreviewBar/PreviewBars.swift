@@ -91,7 +91,7 @@ class PreviewBars {
             self.delegate?.setStatusBar(isHidden: false)
         }
         if animated {
-            UIView.animate(withDuration: 0.3, delay: 0, options: .allowUserInteraction, animations: {
+            UIView.animate(withDuration: AnimationDuration.medium.rawValue, delay: 0, options: .allowUserInteraction, animations: {
                 action()
             })
         } else {
@@ -109,7 +109,7 @@ class PreviewBars {
             self.delegate?.setStatusBar(isHidden: true)
         }
         if animated {
-            UIView.animate(withDuration: 0.2, delay: 0, options: .allowUserInteraction, animations: {
+            UIView.animate(withDuration: AnimationDuration.short.rawValue, delay: 0, options: .allowUserInteraction, animations: {
                 action()
             })
         } else {

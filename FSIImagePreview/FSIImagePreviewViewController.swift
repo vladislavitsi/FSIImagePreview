@@ -203,7 +203,7 @@ extension FSIImagePreviewViewController {
             gestureRecognizer.isEnabled = true
             pageScrollView?.isScrollEnabled = true
             dimensionIsLocked = false
-            UIView.animate(withDuration: 0.2) { [unowned self] in
+            UIView.animate(withDuration: AnimationDuration.short.rawValue) { [unowned self] in
                 piece.center = self.initialCenter
                 self.delegate?.apply(alpha: 1.0)
             }
