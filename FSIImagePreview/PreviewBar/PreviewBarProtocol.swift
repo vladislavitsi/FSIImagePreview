@@ -12,4 +12,5 @@ protocol PreviewBarDelegate: class {
     func backButtonPressed()
     func actionButtonPressed()
     func setStatusBar(isHidden: Bool)
+    func sizeClassIsCompact() -> Bool
 }

@@ -13,20 +13,32 @@ class PreviewBars {
     
     weak var delegate: PreviewBarDelegate?
     
-    private let statusBarFillingView = UIView()
+    let statusBarFillingView = UIView()
     private let bottomSafeAreaFiller = UIView()
     let topBar = TopBar()
     let bottomBar = BottomBar()
     var isHidden = true
+    private let statusBarHeight = DeviceSupport.getStatusBarHeight()
+    private var topScreenConstraint: NSLayoutConstraint
     
     init(on superview: UIView) {
         statusBarFillingView.translatesAutoresizingMaskIntoConstraints = false
         statusBarFillingView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         bottomSafeAreaFiller.translatesAutoresizingMaskIntoConstraints = false
         bottomSafeAreaFiller.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-        
         topBar.view.translatesAutoresizingMaskIntoConstraints = false
         topBar.view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        
+        topScreenConstraint = statusBarFillingView.heightAnchor.constraint(equalToConstant: statusBarHeight)
+        
+        superview.addSubview(statusBarFillingView)
+        NSLayoutConstraint.activate([
+            statusBarFillingView.topAnchor.constraint(equalTo: superview.topAnchor),
+            statusBarFillingView.leadingAnchor.constraint(equalTo: superview.leadingAnchor),
+            statusBarFillingView.trailingAnchor.constraint(equalTo: superview.trailingAnchor),
+            topScreenConstraint
+        ])
+        
         topBar.actionButtonAction = { [unowned self] in
             self.delegate?.actionButtonPressed()
         }
@@ -35,20 +47,7 @@ class PreviewBars {
         }
         
         setBars(isHidden: true)
-        
-        superview.addSubview(statusBarFillingView)
-        
-        NSLayoutConstraint.activate([
-            statusBarFillingView.topAnchor.constraint(equalTo: superview.topAnchor),
-            statusBarFillingView.leadingAnchor.constraint(equalTo: superview.leadingAnchor),
-            statusBarFillingView.trailingAnchor.constraint(equalTo: superview.trailingAnchor)
-        ])
-        if #available(iOS 11.0, *) {
-            statusBarFillingView.bottomAnchor.constraint(equalTo: statusBarFillingView.safeAreaLayoutGuide.topAnchor).isActive = true
-        } else {
-            statusBarFillingView.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        }
-            
+
         superview.addSubview(bottomSafeAreaFiller)
         var superViewBottomAnchor: NSLayoutYAxisAnchor!
         if #available(iOS 11.0, *) {
@@ -83,12 +82,12 @@ class PreviewBars {
     
     func setBars(isHidden: Bool, animated: Bool = false) {
         let action = { [weak self] in
-            self?.statusBarFillingView.alpha = isHidden ? 0 : 1
             self?.bottomSafeAreaFiller.alpha = isHidden ? 0 : 1
             self?.topBar.view.alpha = isHidden ? 0 : 1
+            self?.setStatusBar(isHidden: isHidden)
+            self?.statusBarFillingView.alpha = isHidden ? 0 : 1
             self?.bottomBar.view.alpha = isHidden ? 0 : 1
             self?.isHidden = isHidden
-            self?.delegate?.setStatusBar(isHidden: isHidden)
         }
         if animated {
             UIView.animate(withDuration: AnimationDuration.short.rawValue, delay: 0, options: .allowUserInteraction, animations: {
@@ -98,8 +97,22 @@ class PreviewBars {
             action()
         }
     }
-
     
+    func setStatusBar(isHidden: Bool) {
+        if delegate?.sizeClassIsCompact() ?? false {
+            topScreenConstraint.constant = 0
+            delegate?.setStatusBar(isHidden: true)
+        } else {
+            topScreenConstraint.constant = statusBarHeight
+            statusBarFillingView.alpha = isHidden ? 0 : 1
+            delegate?.setStatusBar(isHidden: isHidden)
+        }
+    }
+    
+    func updateStatusBar() {
+        setStatusBar(isHidden: isHidden)
+    }
+ 
     func changeState() {
         setBars(isHidden: !isHidden, animated: true)
     }

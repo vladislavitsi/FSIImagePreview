@@ -84,6 +84,11 @@ public class FSIViewController: UIPageViewController {
                        animations: { [unowned self] in
             self.imagePreviewViewControllers.first!.initialLocateView()
         })
+        NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+    }
+    
+    @objc private func rotated() {
+        previewBars.updateStatusBar()
     }
     
     func currentImageNumber() -> Int {
@@ -120,7 +125,7 @@ extension FSIViewController {
         return statusBarShouldBeHidden
     }
     private func statusBar(shouldBeHidden: Bool) {
-        statusBarShouldBeHidden = shouldBeHidden
+        statusBarShouldBeHidden = sizeClassIsCompact() ? true : shouldBeHidden
         setNeedsStatusBarAppearanceUpdate()
     }
 }
@@ -205,6 +210,10 @@ extension FSIViewController: UIPageViewControllerDelegate {
 // MARK: -
 // MARK: PreviewBarDelegate
 extension FSIViewController: PreviewBarDelegate {
+    func sizeClassIsCompact() -> Bool {
+        return traitCollection.verticalSizeClass == .compact
+    }
+    
     func backButtonPressed() {
         dissmiss()
     }
