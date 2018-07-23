@@ -38,9 +38,9 @@ class PreviewBars {
             statusBarFillingView.trailingAnchor.constraint(equalTo: superview.trailingAnchor),
             topScreenConstraint
         ])
-        
-        topBar.actionButtonAction = { [unowned self] in
-            self.delegate?.actionButtonPressed()
+
+        topBar.actionButtonAction = { [unowned self] sender in
+            self.delegate?.actionButtonPressed(sender)
         }
         topBar.backButtonAction = { [unowned self] in
             self.delegate?.backButtonPressed()

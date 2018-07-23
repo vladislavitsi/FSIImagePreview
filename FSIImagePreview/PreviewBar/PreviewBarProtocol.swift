@@ -10,7 +10,7 @@ import UIKit
 
 protocol PreviewBarDelegate: class {
     func backButtonPressed()
-    func actionButtonPressed()
+    func actionButtonPressed(_ sender: UIButton)
     func setStatusBar(isHidden: Bool)
     func sizeClassIsCompact() -> Bool
 }

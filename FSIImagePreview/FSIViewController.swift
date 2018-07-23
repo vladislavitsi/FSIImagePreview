@@ -218,8 +218,14 @@ extension FSIViewController: PreviewBarDelegate {
         dissmiss()
     }
     
-    func actionButtonPressed() {
+    func actionButtonPressed(_ sender: UIButton) {
         if let actionSheet = actionSheet {
+            if let popoverController = actionSheet.popoverPresentationController {
+                popoverController.sourceView = self.view
+                var sourceRect = sender.frame
+                sourceRect.origin.y += sender.frame.height/2
+                popoverController.sourceRect = sourceRect
+            }
             present(actionSheet, animated: true)
         }
     }

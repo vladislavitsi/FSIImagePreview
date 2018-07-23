@@ -14,7 +14,7 @@ class TopBar: AbstractBar {
     let pageCounter = PageCounter()
     let actionButton = UIButton()
     
-    var actionButtonAction: (() -> Void)?
+    var actionButtonAction: ((_ : UIButton) -> Void)?
     var backButtonAction: (() -> Void)?
     
     override init() {
@@ -62,11 +62,11 @@ class TopBar: AbstractBar {
             actionButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -5),
             actionButton.widthAnchor.constraint(equalTo: actionButton.heightAnchor, multiplier: 1)
         ])
-        actionButton.addTarget(self, action: #selector(actionButtonPressed), for: .touchUpInside)
+        actionButton.addTarget(self, action: #selector(actionButtonPressed(_:)), for: .touchUpInside)
     }
     
-    @objc func actionButtonPressed() {
-        actionButtonAction?()
+    @objc func actionButtonPressed(_ sender: UIButton) {
+        actionButtonAction?(sender)
     }
     
     @objc func backButtonPressed() {
