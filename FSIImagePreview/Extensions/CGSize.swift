@@ -9,6 +9,7 @@
 import UIKit
 
 extension CGSize {
+    /// The ratio of width to height of the screen.
     func ratio() -> CGFloat {
         return width / height
     }
