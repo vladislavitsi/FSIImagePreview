@@ -8,9 +8,14 @@
 
 import UIKit
 
-fileprivate typealias ConstraintsGaps = (portrait: CGFloat, landscape: CGFloat)
-fileprivate typealias OrientationConstraints = (portrait: [NSLayoutConstraint], landscape: [NSLayoutConstraint])
-fileprivate typealias AxisConstraints = (portrait: NSLayoutConstraint, landscape: NSLayoutConstraint)
+fileprivate typealias AxisDimensionConstraints = (x: NSLayoutConstraint, y: NSLayoutConstraint)
+
+fileprivate struct OrientationCredit {
+    var axisConstraint: NSLayoutConstraint
+    var orientationConstraint: [NSLayoutConstraint]
+    var constraintGap: CGFloat
+}
+fileprivate typealias OrientationCredits = (portrait: OrientationCredit?, landscape: OrientationCredit?)
 
 /// ViewController that manage single image page, with UIScrollView and UIImageView on it.
 class FSIImagePreviewViewController: UIViewController {
@@ -25,10 +30,8 @@ class FSIImagePreviewViewController: UIViewController {
     private lazy var initialCenter = CGPoint.zero
     private var dimensionIsLocked = false
     
-    private var axisConstraints: AxisConstraints = (NSLayoutConstraint(), NSLayoutConstraint())
-    private var realAxisConstraints: AxisConstraints = (NSLayoutConstraint(), NSLayoutConstraint())
-    private lazy var orientationConstraints = OrientationConstraints([NSLayoutConstraint](), [NSLayoutConstraint]())
-    private lazy var constraintGaps = ConstraintsGaps(0, 0)
+    private var realAxisConstraints: AxisDimensionConstraints = (NSLayoutConstraint(), NSLayoutConstraint())
+    private var orientationCredits: OrientationCredits? = (nil, nil)
     
     init (with image: UIImage, fsiController: FSIControllerProtocol, shouldAppearAnimated: Bool = false) {
         self.imageRatio = image.size.ratio()
@@ -44,7 +47,7 @@ class FSIImagePreviewViewController: UIViewController {
     }
     override func loadView() {
         view = UIView()
-        
+
         scrollView = ScrollView.getCustomScrollView()
         view.addSubview(scrollView)
         NSLayoutConstraint.activate([
@@ -80,29 +83,27 @@ class FSIImagePreviewViewController: UIViewController {
         let screenWidth = min(screenSize.height, screenSize.width)
         let screenRatio = screenWidth / screenHeight
         
-        realAxisConstraints.portrait = imageView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
-        realAxisConstraints.landscape = imageView.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor)
+        realAxisConstraints.x = imageView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
+        realAxisConstraints.y = imageView.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor)
         
         if imageRatio < screenRatio {
-            // not typical, image thiner in portrait => side gaps
-            constraintGaps.portrait = (screenWidth - screenHeight * imageRatio)/2
-            axisConstraints.portrait = realAxisConstraints.portrait
-            orientationConstraints.portrait += topAndBottomConstraints
+            orientationCredits?.portrait = OrientationCredit(axisConstraint: realAxisConstraints.x,
+                                                           orientationConstraint: topAndBottomConstraints,
+                                                           constraintGap: (screenWidth - screenHeight * imageRatio)/2)
         } else {
-            constraintGaps.portrait = (screenHeight - screenWidth / imageRatio)/2
-            axisConstraints.portrait = realAxisConstraints.landscape
-            orientationConstraints.portrait += sideConstraints
+            orientationCredits?.portrait = OrientationCredit(axisConstraint: realAxisConstraints.y,
+                                                            orientationConstraint: sideConstraints,
+                                                            constraintGap: (screenHeight - screenWidth / imageRatio)/2)
         }
         
         if imageRatio > 1/screenRatio {
-            // not typical, image thiner in landscape => top and bottom gaps
-            constraintGaps.landscape = (screenWidth - screenHeight / imageRatio)/2
-            axisConstraints.landscape = realAxisConstraints.landscape
-            orientationConstraints.landscape += sideConstraints
+            orientationCredits?.landscape = OrientationCredit(axisConstraint: realAxisConstraints.y,
+                                                            orientationConstraint: sideConstraints,
+                                                            constraintGap: (screenWidth - screenHeight / imageRatio)/2)
         } else {
-            constraintGaps.landscape = (screenHeight - screenWidth * imageRatio)/2
-            axisConstraints.landscape = realAxisConstraints.portrait
-            orientationConstraints.landscape += topAndBottomConstraints
+            orientationCredits?.landscape = OrientationCredit(axisConstraint: realAxisConstraints.x,
+                                                             orientationConstraint: topAndBottomConstraints,
+                                                             constraintGap: (screenHeight - screenWidth * imageRatio)/2)
         }
     }
     
@@ -129,19 +130,18 @@ class FSIImagePreviewViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         scrollView.zoomScale = 1.0
-        axisConstraints.portrait.constant = 0
-        axisConstraints.landscape.constant = 0
-
+        orientationCredits?.portrait?.axisConstraint.constant = 0
+        orientationCredits?.landscape?.axisConstraint.constant = 0
     }
     
 //    update constraints when orientation changed
     override public func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         scrollView.zoomScale = scrollView.minimumZoomScale
         updateImageConstraints(with: size, isInitial: false)
-        axisConstraints.portrait.constant = 0
-        axisConstraints.landscape.constant = 0
-        coordinator.animate(alongsideTransition: nil) { [unowned self] _ in
-            self.centerZoomView()
+        orientationCredits?.portrait?.axisConstraint.constant = 0
+        orientationCredits?.landscape?.axisConstraint.constant = 0
+        coordinator.animate(alongsideTransition: nil) { [weak self] _ in
+            self?.centerZoomView()
         }
     }
     
@@ -165,20 +165,24 @@ class FSIImagePreviewViewController: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: imageRatio),
-            realAxisConstraints.portrait,
-            realAxisConstraints.landscape
+            realAxisConstraints.x,
+            realAxisConstraints.y
         ])
         updateImageConstraints(with: UIScreen.main.bounds.size, isInitial: true)
     }
     
     /// Update constraints of imageView depending on device orientation
     private func updateImageConstraints(with size: CGSize, isInitial: Bool) {
+        guard let portraitConstraints = orientationCredits?.portrait?.orientationConstraint,
+              let landscapeConstraints = orientationCredits?.landscape?.orientationConstraint else {
+            return
+        }
         if size.ratio() > 1 {
-            scrollView.removeConstraints(orientationConstraints.portrait)
-            NSLayoutConstraint.activate(orientationConstraints.landscape)
+            scrollView.removeConstraints(portraitConstraints)
+            NSLayoutConstraint.activate(landscapeConstraints)
         } else {
-            scrollView.removeConstraints(orientationConstraints.landscape)
-            NSLayoutConstraint.activate(orientationConstraints.portrait)
+            scrollView.removeConstraints(landscapeConstraints)
+            NSLayoutConstraint.activate(portraitConstraints)
         }
         if isInitial {
             view.layoutIfNeeded()
@@ -186,19 +190,23 @@ class FSIImagePreviewViewController: UIViewController {
     }
 
     private func centerZoomView() {
-        axisConstraints.portrait.constant = 0
-        axisConstraints.landscape.constant = 0
+        guard let portraitCredits = orientationCredits?.portrait,
+            let landscapeCredits = orientationCredits?.landscape else {
+                return
+        }
+        portraitCredits.axisConstraint.constant = 0
+        portraitCredits.axisConstraint.constant = 0
         if UIInterfaceOrientationIsPortrait(UIApplication.shared.statusBarOrientation) {
             if scrollView.frame.size.ratio() > imageRatio {
-                axisConstraints.portrait.constant = max((scrollView.bounds.size.width - imageView.frame.size.width)/2 - constraintGaps.portrait, -constraintGaps.portrait)
+                portraitCredits.axisConstraint.constant = max((scrollView.bounds.size.width - imageView.frame.size.width)/2 - portraitCredits.constraintGap, -portraitCredits.constraintGap)
             } else {
-                axisConstraints.portrait.constant = max((scrollView.bounds.size.height - imageView.frame.size.height)/2 - constraintGaps.portrait, -constraintGaps.portrait)
+                portraitCredits.axisConstraint.constant = max((scrollView.bounds.size.height - imageView.frame.size.height)/2 - portraitCredits.constraintGap, -portraitCredits.constraintGap)
             }
         } else {
             if scrollView.frame.size.ratio() < imageRatio {
-                axisConstraints.landscape.constant = max((scrollView.bounds.size.height - imageView.frame.size.height)/2 - constraintGaps.landscape, -constraintGaps.landscape)
+                landscapeCredits.axisConstraint.constant = max((scrollView.bounds.size.height - imageView.frame.size.height)/2 - landscapeCredits.constraintGap, -landscapeCredits.constraintGap)
             } else {
-                axisConstraints.landscape.constant = max((scrollView.bounds.size.width - imageView.frame.size.width)/2 - constraintGaps.landscape, -constraintGaps.landscape)
+                landscapeCredits.axisConstraint.constant = max((scrollView.bounds.size.width - imageView.frame.size.width)/2 - landscapeCredits.constraintGap, -landscapeCredits.constraintGap)
             }
         }
         view.layoutIfNeeded()
